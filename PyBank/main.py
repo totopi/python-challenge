@@ -10,9 +10,13 @@ The average change in revenue between months over the entire period
 
 The greatest increase in revenue (date and amount) over the entire period
 
-The greatest decrease in revenue (date and amount) over the entire period '''
+The greatest decrease in revenue (date and amount) over the entire period 
+
+
+Your final script must be able to handle any such similarly structured dataset in the future (your boss is going to give you more of these -- so your script has to work for the ones to come). In addition, your final script should both print the analysis to the terminal and export a text file with the results.'''
 
 import csv
+import os
 
 def FinancialAnalysis(filename):
     #Different things that needed to be zeroed before stuff happens
@@ -64,13 +68,24 @@ def FinancialAnalysis(filename):
                 greatestDecrease = [row[0],revenueChangeNow]
 
     #OUTPUT#
-    print("Financial Analysis")
-    print("----------------------------")
-    print("Total Months:", numberOfMonths)
-    print("Total Revenue: $"+ str(totalRevenue))
-    print("Average Revenue Change: $" + str(revenueChangeTotal / numberOfMonths))
-    print("Greatest Increase in Revenue: " + greatestIncrease[0] + " ($" + str(greatestIncrease[1]) + ")")
-    print("Greatest Decrease in Revenue: " + greatestDecrease[0] + " ($" + str(greatestDecrease[1]) + ")")
+    outputs = []
+    outputs.append("Financial Analysis")
+    outputs.append("----------------------------")
+    outputs.append("Total Months: " + str(numberOfMonths))
+    outputs.append("Total Revenue: $" + str(totalRevenue))
+    outputs.append("Average Revenue Change: $" + str(revenueChangeTotal / numberOfMonths))
+    outputs.append("Greatest Increase in Revenue: " + greatestIncrease[0] + " ($" + str(greatestIncrease[1]) + ")")
+    outputs.append("Greatest Decrease in Revenue: " + greatestDecrease[0] + " ($" + str(greatestDecrease[1]) + ")")
+    # And use a loop to spit all of that out...  Done this way because..!
+    for x in outputs:
+        print(x)
+
+    # Now to output everything to a txt file
+    textfile = filename + ".txt"
+    files = open(textfile, "w")
+    for x in outputs:
+        files.write(x + "\n") # I can just use it here instead of copy pasting for more concise code yay
+    files.close()
 
 # Now let's use that function on our two datasets.
 FinancialAnalysis('raw_data\\budget_data_1.csv')
